@@ -26,11 +26,15 @@ touch ~/.streamlit/secrets.toml
 ```
 **Edit the file `secrets.toml` filling in your secrets**
 ```
+OPENAI_URL = 'https://api.openai.com/v1'
 OPENAI_API_KEY = 'YOUR_OPEN_API_KEY'
 CONFLUENCE_URL = 'YOUR_CONFLUENCE_URL'
 CONFLUENCE_USERNAME = 'YOUR_CONFLUENCE_USER_NAME'
 CONFLUENCE_API_TOKEN = 'YOUR_CONFLUENCE_PAT'
 ```
+
+Change the OPENAI_URL to `http://localai:8080/v1' if you have localAI or other
+OpenAI API compatible systems
 
 # Run the App
 ```cmd

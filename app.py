@@ -20,6 +20,7 @@ from module.collect_data import get_confluence_spaces
 
 # ------------------ Config ------------------ #
 openai.api_key      = st.secrets['OPENAI_API_KEY']
+openai.api_base     = st.secrets['OPENAI_URL']
 completion_model    = 'gpt-3.5-turbo'
 file_name           = 'data/pages_data'
 user_language       = 'english' # german

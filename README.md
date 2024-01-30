@@ -20,7 +20,7 @@ cd let-me-confluence-that-for-you
 pip install -r requirements.txt
 ```
 # Configuration
-**Create a file alled `secrets.toml` in your user directory**
+**Create a file called `secrets.toml` in your user directory**
 ```
 touch ~/.streamlit/secrets.toml
 ```

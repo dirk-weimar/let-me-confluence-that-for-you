@@ -1,6 +1,8 @@
-import openai
+from openai import OpenAI
+import streamlit as st
 
 # ------------- Shared variables ------------- #
+openai_client = OpenAI(api_key = st.secrets['OPENAI_API_KEY'])
 tokenizer_encoding_name = 'cl100k_base'
 embedding_model = 'text-embedding-ada-002'
 
@@ -25,6 +27,9 @@ def get_file_name_for_space(file_name: str, space: str) -> str:
     return file_name + '_' + space + '.csv'
 
 def create_embeddings(text: str, model: str) -> list:
-    result = openai.Embedding.create(model = model, input = text)
 
-    return result["data"][0]["embedding"]
+    response = openai_client.embeddings.create(
+        model="text-embedding-ada-002",  # oder ein anderes Modell
+        input=text
+    )
+    return response.data[0].embedding

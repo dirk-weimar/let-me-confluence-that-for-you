@@ -8,6 +8,7 @@ import streamlit as st
 # ------------- Module variables ------------- #
 import module.lang as lang;
 from module.shared import \
+  openai_client, \
   embedding_model, \
   max_tokens_response
 
@@ -19,8 +20,6 @@ from module.collect_data import write_csv
 from module.collect_data import get_confluence_spaces
 
 # ------------------ Config ------------------ #
-openai.api_key      = st.secrets['OPENAI_API_KEY']
-openai.api_base     = st.secrets['OPENAI_URL']
 completion_model    = 'gpt-3.5-turbo'
 file_name           = 'data/pages_data'
 user_language       = 'english' # german
@@ -107,7 +106,7 @@ def ask(query: str, memory: List[tuple], pages_df: pd.DataFrame):
     memory = contruct_prompt(query, memory, context)
 
     # Call api to get answer
-    response = openai.ChatCompletion.create(
+    response = openai_client.chat.completions.create(
         model = completion_model,
         messages = memory,
         max_tokens = max_tokens_response,
@@ -176,7 +175,6 @@ st.title('🦉 Let Me Confluence That For You!')
 custom_css = """
 <style>
 .stChatMessage div:first-child {
-    font-size: 1.6em;
     border: none;
     background-color: inherit;
 }
@@ -238,9 +236,12 @@ else:
 
                 # Print answer to the user
                 for chunk in response:
-                    chunk_content = chunk.choices[0].delta.get("content", "")
-                    full_response += chunk_content
-                    message_placeholder.markdown(full_response + "▌")
+
+                    delta = chunk.choices[0].delta
+                    if delta.content:
+                        chunk_content = chunk.choices[0].delta.content
+                        full_response += chunk_content
+                        message_placeholder.markdown(full_response + "▌")
 
                 message_placeholder.markdown(full_response)
 
